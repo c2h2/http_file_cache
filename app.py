@@ -76,7 +76,7 @@ async def twitter_profile_image(path):
         path_fn, fn = key_url_to_file("twitter_profile_image", url)
         return await send_from_directory(STORE_LOC, fn)
     except:
-        return await send_from_directory("Blank.JPG", fn) 
+        return await send_from_directory(STORE_LOC, "Blank.JPG") 
 
 @app.route('/twitter_background_image/<path>')
 async def twitter_background_image(path):
@@ -90,7 +90,7 @@ async def twitter_background_image(path):
         path_fn, fn = key_url_to_file("twitter_background_image", url)
         return await send_from_directory(STORE_LOC, fn) 
     except:
-        return await send_from_directory("Blank.JPG", fn) 
+        return await send_from_directory(STORE_LOC, "Blank.JPG") 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=app.config['SERVER_PORT'])
