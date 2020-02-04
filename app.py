@@ -69,7 +69,7 @@ async def twitter_profile_image(path):
     path_fn = get_twitter_lookup_json(path)
 
     with open(path_fn) as json_file:
-        data = json.load(json_file)
+        data = json.load(json_file.split("\n")[0])
         url = data["profile_image_url"]
     
     try:
@@ -83,7 +83,7 @@ async def twitter_background_image(path):
     path_fn = get_twitter_lookup_json(path)
 
     with open(path_fn) as json_file:
-        data = json.load(json_file)
+        data = json.load(json_file.split("\n")[0])
         url = data["background_image"]
     
     try:
