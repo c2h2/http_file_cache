@@ -29,9 +29,9 @@ def key_url_to_file(key, url):
         ext = DEFAULT_EXT
     fn = enc_key+"_"+enc_url+"."+ext
     path_fn = STORE_LOC+"/"+fn
-    print(path_fn)
     if os.path.exists(path_fn):
-        print("SERVE FROM FILE")
+        #("SERVE FROM FILE")
+        pass
     else:
         urllib.request.urlretrieve(url, path_fn)
 
@@ -41,7 +41,8 @@ def get_twitter_lookup_json(username):
     path_fn = STORE_LOC+"/"+username+"_lookup.json"
     cmd = "twint --user-full --json -u " + username + " -o " + path_fn
     if os.path.exists(path_fn):
-        print("JSON FROM FILE")
+        pass
+        #print("JSON FROM FILE")
     else:
         #os.remove(path_fn)
         for attempt in range(RETRY_TIMES):
