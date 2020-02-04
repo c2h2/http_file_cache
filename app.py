@@ -72,8 +72,11 @@ async def twitter_profile_image(path):
         data = json.load(json_file)
         url = data["profile_image_url"]
     
-    path_fn, fn = key_url_to_file("twitter_profile_image", url)
-    return await send_from_directory(STORE_LOC, fn)
+    try:
+        path_fn, fn = key_url_to_file("twitter_profile_image", url)
+        return await send_from_directory(STORE_LOC, fn)
+    except:
+        return await send_from_directory("Blank.JPG", fn) 
 
 @app.route('/twitter_background_image/<path>')
 async def twitter_background_image(path):
@@ -83,9 +86,11 @@ async def twitter_background_image(path):
         data = json.load(json_file)
         url = data["background_image"]
     
-    path_fn, fn = key_url_to_file("twitter_background_image", url)
-    return await send_from_directory(STORE_LOC, fn) 
-
+    try:
+        path_fn, fn = key_url_to_file("twitter_background_image", url)
+        return await send_from_directory(STORE_LOC, fn) 
+    except:
+        return await send_from_directory("Blank.JPG", fn) 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=app.config['SERVER_PORT'])
