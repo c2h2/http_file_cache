@@ -33,7 +33,10 @@ def key_url_to_file(key, url):
         #("SERVE FROM FILE")
         pass
     else:
-        urllib.request.urlretrieve(url, path_fn)
+        try:
+            urllib.request.urlretrieve(url, path_fn)
+        except:
+            return STORE_LOC+"/"+"1500x500.png", "1500x500.png"
 
     return path_fn, fn
 
@@ -93,7 +96,7 @@ async def twitter_background_image(path):
         path_fn, fn = key_url_to_file("twitter_background_image", url)
         return await send_from_directory(STORE_LOC, fn) 
     except:
-        return await send_from_directory(STORE_LOC, "Blank.JPG") 
+        return await send_from_directory(STORE_LOC, "1500x500.png") 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=app.config['SERVER_PORT'])
