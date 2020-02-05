@@ -78,7 +78,7 @@ async def twitter_profile_image(path):
         path_fn, fn = key_url_to_file("twitter_profile_image", url)
         return await send_from_directory(STORE_LOC, fn)
     except:
-        return await send_from_directory(STORE_LOC, "Blank.JPG") 
+        return await send_from_directory(STORE_LOC, "1500x500.png") 
 
 @app.route('/twitter_background_image/<path>')
 async def twitter_background_image(path):
