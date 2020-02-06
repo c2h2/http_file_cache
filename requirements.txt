@@ -2,3 +2,4 @@ quart
 base58
 twint
 hypercorn
+Pillow
