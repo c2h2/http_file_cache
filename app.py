@@ -30,20 +30,21 @@ def resize_image(image_path, new_image_path):
     return new_image_path
 
 def plaintext_to_file(plaintext, url, resize=False):
-    ext = url.split(".")[-1]
-    if len(ext)>5:
-        ext = DEFAULT_EXT
-    
-    fn = plaintext+"."+ext
-    path_fn = STORE_LOC+"/"+fn
-    resized_fn = plaintext+"_resized."+ext
-    path_resized_fn=STORE_LOC+"/"+resized_fn
+    try:
+        ext = url.split(".")[-1]
+        if len(ext)>5:
+            ext = DEFAULT_EXT
+        
+        fn = plaintext+"."+ext
+        path_fn = STORE_LOC+"/"+fn
+        resized_fn = plaintext+"_resized."+ext
+        path_resized_fn=STORE_LOC+"/"+resized_fn
 
-    if not os.path.exists(path_fn):
-        try:
+        if not os.path.exists(path_fn):
+            
             urllib.request.urlretrieve(url, path_fn)
-        except:
-            return STORE_LOC+"/"+TRANSPARENT_IMG, TRANSPARENT_IMG
+    except:
+        return STORE_LOC+"/"+TRANSPARENT_IMG, TRANSPARENT_IMG
     
     if resize:
         resize_image(path_fn, path_resized_fn)
