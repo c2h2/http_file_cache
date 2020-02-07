@@ -14,6 +14,7 @@ STORE_LOC="stores"
 DEFAULT_EXT="jpg"
 RETRY_TIMES=2
 TRANSPARENT_IMG = "1500x500.png"
+REDIRECT_HOST =""
 
 # load conf
 with open('./config.json') as f:
@@ -100,6 +101,11 @@ async def index():
 async def serve():
     path_fn, fn = key_url_to_file(request.args.get('key'), request.args.get('url'))
     return await send_from_directory(STORE_LOC, fn)
+
+@app.route('/twitter_profile_lookup/<path>')
+async def twitter_profile_lookup(path):
+    path_json = get_twitter_lookup_json(path)
+    return await send_from_directory(STORE_LOC, path_json.split("/")[-1])
 
 @app.route('/twitter_profile_image/<path>')
 async def twitter_profile_image(path):
