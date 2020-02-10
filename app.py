@@ -33,22 +33,22 @@ def resize_image(image_path, new_image_path):
     new_image.save(new_image_path)
     return new_image_path
 
-def plaintext_to_file(plaintext, url, resize=False):
+def plaintext_to_file(plaintext, url, prefix=STORE_LOC, resize=False):
     try:
         ext = url.split(".")[-1]
         if len(ext)>5:
             ext = DEFAULT_EXT
         
         fn = plaintext+"."+ext
-        path_fn = STORE_LOC+"/"+fn
+        path_fn = prefix+"/"+fn
         resized_fn = plaintext+"_resized."+ext
-        path_resized_fn=STORE_LOC+"/"+resized_fn
+        path_resized_fn=prefix+"/"+resized_fn
 
         if not os.path.exists(path_fn):
             
             urllib.request.urlretrieve(url, path_fn)
     except:
-        return STORE_LOC+"/"+TRANSPARENT_IMG, TRANSPARENT_IMG
+        return prefix+"/"+TRANSPARENT_IMG, TRANSPARENT_IMG
     
     if resize:
         resize_image(path_fn, path_resized_fn)
@@ -78,12 +78,12 @@ def key_url_to_file(key, url):
     return path_fn, fn
 
 def get_twitter_lookup_json(username):
-    path_fn = STORE_LOC+"/"+username+"_lookup.json"
-    cmd = "twint --user-full --json -u " + username + " -o " + path_fn
+    path_fn = STORE_LOOKUP+"/"+username+"_lookup.json"
     if os.path.exists(path_fn):
         pass
         #print("JSON FROM FILE")
     else:
+        cmd = "twint --user-full --json -u " + username + " -o " + path_fn
         #os.remove(path_fn)
         for attempt in range(RETRY_TIMES):
             try:
@@ -119,7 +119,7 @@ async def twitter_profile_image(path):
         data = json.loads(content)
         url = data["profile_image_url"]
 
-    path_fn, fn = plaintext_to_file("twitter_profile_image-"+path, url, False)
+    path_fn, fn = plaintext_to_file("twitter_profile_image-"+path, url, STORE_PROFILE, False)
     return await send_from_directory(STORE_PROFILE, fn)
  
 @app.route('/twitter_background_image/<path>')
@@ -137,7 +137,7 @@ async def twitter_background_image(path):
     else:
         do_resize = True
 
-    path_fn, fn = plaintext_to_file("twitter_background_image-"+path, url, do_resize)
+    path_fn, fn = plaintext_to_file("twitter_background_image-"+path, url, STORE_BACKGROUND, do_resize)
     return await send_from_directory(STORE_BACKGROUND, fn) 
 
 
