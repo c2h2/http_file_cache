@@ -11,6 +11,9 @@ from PIL import Image
 app = Quart(__name__)
 
 STORE_LOC="stores"
+STORE_LOOKUP="stores/lookup"
+STORE_PROFILE="stores/profile"
+STORE_BACKGROUND="stores/background"
 DEFAULT_EXT="jpg"
 RETRY_TIMES=2
 TRANSPARENT_IMG = "1500x500.png"
@@ -105,7 +108,7 @@ async def serve():
 @app.route('/twitter_profile_lookup/<path>')
 async def twitter_profile_lookup(path):
     path_json = get_twitter_lookup_json(path)
-    return await send_from_directory(STORE_LOC, path_json.split("/")[-1])
+    return await send_from_directory(STORE_LOOKUP, path_json.split("/")[-1])
 
 @app.route('/twitter_profile_image/<path>')
 async def twitter_profile_image(path):
@@ -117,7 +120,7 @@ async def twitter_profile_image(path):
         url = data["profile_image_url"]
 
     path_fn, fn = plaintext_to_file("twitter_profile_image-"+path, url, False)
-    return await send_from_directory(STORE_LOC, fn)
+    return await send_from_directory(STORE_PROFILE, fn)
  
 @app.route('/twitter_background_image/<path>')
 async def twitter_background_image(path):
@@ -135,7 +138,7 @@ async def twitter_background_image(path):
         do_resize = True
 
     path_fn, fn = plaintext_to_file("twitter_background_image-"+path, url, do_resize)
-    return await send_from_directory(STORE_LOC, fn) 
+    return await send_from_directory(STORE_BACKGROUND, fn) 
 
 
 if __name__ == '__main__':
